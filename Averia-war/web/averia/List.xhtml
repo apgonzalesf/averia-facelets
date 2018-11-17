@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title"> 
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <rich:panel header="#{bundle.ListAveriaTitle}"> 
+                    <h:panelGroup id="messagePanel" layout="block">
+                        <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                    </h:panelGroup>
+                    <h:outputText escape="false" value="#{bundle.ListAveriaEmpty}" rendered="#{averiaController.items.rowCount == 0}"/>
+                    <h:panelGroup rendered="#{averiaController.items.rowCount > 0}">
+                        <h:outputText value="#{averiaController.pagination.pageFirstItem + 1}..#{averiaController.pagination.pageLastItem + 1}/#{averiaController.pagination.itemsCount}"/>&nbsp;
+                        <h:commandLink action="#{averiaController.previous}" value="#{bundle.Previous} #{averiaController.pagination.pageSize}" rendered="#{averiaController.pagination.hasPreviousPage}"/>&nbsp;
+                        <h:commandLink action="#{averiaController.next}" value="#{bundle.Next} #{averiaController.pagination.pageSize}" rendered="#{averiaController.pagination.hasNextPage}"/>&nbsp;
+                        
+                        <rich:dataTable var="item" value="#{averiaController.items}"> 
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAveriaTitle_idAveria}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idAveria}"/>
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAveriaTitle_desAveria}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.desAveria}"/>
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAveriaTitle_idEstado}"/>
+                                </f:facet>
+
+                                <rich:select disabled="true" value="#{item.idEstado}"  >
+                                    <f:selectItem itemValue="1" itemLabel="REGISTRADO" /> 
+                                </rich:select>  
+                            </rich:column>
+
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAveriaTitle_fecRegistro}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fecRegistro}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAveriaTitle_idEquipo}"/>
+                                </f:facet> 
+                                <h:selectOneMenu disabled="true" id="idEquipo" value="#{item.idEquipo}" title="#{bundle.EditAveriaTitle_idEquipo}" >
+                                    <f:selectItems value="#{equipoController.itemsAvailableSelectOne}"/>
+                                </h:selectOneMenu>
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAveriaTitle_idTipo}"/>
+                                </f:facet>
+
+                                <h:selectOneMenu disabled="true" id="idTipo" value="#{item.idTipo}" title="#{bundle.EditAveriaTitle_idTipo}" >
+                                    <f:selectItems value="#{tipoAveriaController.itemsAvailableSelectOne}"/>
+                                </h:selectOneMenu>
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAveriaTitle_idUsuario}"/>
+                                </f:facet>
+
+                                <h:selectOneMenu disabled="true" id="idUsuario" value="#{item.idUsuario}" title="#{bundle.EditAveriaTitle_idUsuario}" >
+                                    <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                                </h:selectOneMenu>
+                            </rich:column>
+                            <rich:column>
+                                <f:facet name="header">
+                                    <h:outputText value="&nbsp;"/>
+                                </f:facet>
+                                <h:commandLink action="#{averiaController.prepareView}" value="#{bundle.ListAveriaViewLink}"/>
+                                <h:outputText value=" "/>
+                                <h:commandLink action="#{averiaController.prepareEdit}" value="#{bundle.ListAveriaEditLink}"/>
+                                <h:outputText value=" "/>
+                                <h:commandLink action="#{averiaController.destroy}" value="#{bundle.ListAveriaDestroyLink}"/>
+                            </rich:column>
+                        </rich:dataTable>
+                    </h:panelGroup>
+                    <br />
+                    <h:commandLink action="#{averiaController.prepareCreate}" value="#{bundle.ListAveriaCreateLink}"/>
+                    <br />
+                    <br />
+                    <h:link outcome="/index" value="#{bundle.ListAveriaIndexLink}"/>
+                </rich:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

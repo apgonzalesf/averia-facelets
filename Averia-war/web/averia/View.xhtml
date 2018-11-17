@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title"> 
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <rich:panel header="#{bundle.ViewAveriaTitle}">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="#{bundle.ViewAveriaLabel_idAveria}"/>
+                        <h:outputText value="#{averiaController.selected.idAveria}" title="#{bundle.ViewAveriaTitle_idAveria}"/>
+                        <h:outputText value="#{bundle.ViewAveriaLabel_desAveria}"/>
+                        <h:outputText value="#{averiaController.selected.desAveria}" title="#{bundle.ViewAveriaTitle_desAveria}"/>
+                        <h:outputText value="#{bundle.ViewAveriaLabel_idEstado}"/>
+                        <rich:select disabled="true" value="#{averiaController.selected.idEstado}"  >
+                            <f:selectItem itemValue="1" itemLabel="REGISTRADO" /> 
+                        </rich:select>                    
+                        <h:outputText value="#{bundle.ViewAveriaLabel_fecRegistro}"/>
+                        <h:outputText value="#{averiaController.selected.fecRegistro}" title="#{bundle.ViewAveriaTitle_fecRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewAveriaLabel_idEquipo}"/>
+                        <h:selectOneMenu disabled="true" id="idEquipo" value="#{averiaController.selected.idEquipo}" title="#{bundle.EditAveriaTitle_idEquipo}" >
+                            <f:selectItems value="#{equipoController.itemsAvailableSelectOne}"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="#{bundle.ViewAveriaLabel_idTipo}"/>
+                        <h:selectOneMenu disabled="true" id="idTipo" value="#{averiaController.selected.idTipo}" title="#{bundle.EditAveriaTitle_idTipo}" >
+                            <f:selectItems value="#{tipoAveriaController.itemsAvailableSelectOne}"/>
+                        </h:selectOneMenu>
+                        <h:outputText value="#{bundle.ViewAveriaLabel_idUsuario}"/>
+                        <h:selectOneMenu disabled="true" id="idUsuario" value="#{averiaController.selected.idUsuario}" title="#{bundle.EditAveriaTitle_idUsuario}" >
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                        </h:selectOneMenu>
+                        <h:dataTable value="#{averiaController.selected.accionList }" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAccionTitle_desAccion}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.desAccion}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListAccionTitle_fecAccion}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fecAccion}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </h:column> 
+
+                        </h:dataTable>
+                    </h:panelGrid>
+                    <br />
+                    <h:commandLink action="#{averiaController.destroyAndView}" value="#{bundle.ViewAveriaDestroyLink}"/>
+                    <br />
+                    <br />
+                    <h:link outcome="Edit" value="#{bundle.ViewAveriaEditLink}"/>
+                    <br />
+                    <h:commandLink action="#{averiaController.prepareCreate}" value="#{bundle.ViewAveriaCreateLink}" />
+                    <br />
+                    <h:commandLink action="#{averiaController.prepareList}" value="#{bundle.ViewAveriaShowAllLink}"/>
+                    <br />
+                    <br />
+                    <h:link outcome="/index" value="#{bundle.ViewAveriaIndexLink}"/>
+                </rich:panel> 
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
